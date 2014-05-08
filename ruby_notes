@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << "lib"
+$LOAD_PATH << "models"
+
+require 'environment'
+Environment.environment = 'test'
+$stderr = $stdout
+
+require 'user'
+
+
+def menu
+<<EOS
+What do you want to do?
+1. Add a User
+2. Create a Note
+3. Modify a Note
+4. Search
+EOS
+end
+
+def add_user
+  puts "Please enter a User-Name:"
+  user_name = gets
+  return unless user_name
+  user_name.chomp!
+  user = User.new(user_name)
+  if user.save
+    puts "#{user_name} has been added as a User."
+    record_desired_outcomes_for(user) #<-- line 81
+  else
+    puts user.errors
+    add_user
+  end
+end
+
+def create_note
+  puts "What is the title of the Note you want to create?"
+  note_title = gets
+  return unless note_title
+  note_title.chomp!
+  note = Note.new(note_title)
+  if note.save
+    puts "#{note_title} has been added"
+  else
+    puts note.errors
+    create_note
+  end
+end
+
+def modify_note
+  #stuff
+end
+
+def search_note
+  #stuff
+end
+
+def get_menu_selection
+  puts menu
+  input = gets
+  return unless input
+  input.chomp!
+  if input == "1"
+    add_user
+  elsif input == "2"
+    create_note
+  elsif input == "3"
+    modify_note
+  elsif input == "4"
+    search_note
+  else
+    puts "'#{input}' is not a valid selection."
+    get_menu_selection
+  end
+end
+
+get_menu_selection
