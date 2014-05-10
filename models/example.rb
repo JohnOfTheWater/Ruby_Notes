@@ -1,5 +1,5 @@
 class Note
-  attr_reader :title, :body, :tag, , user_name:id
+  attr_reader :title, :body, :tag, :user_name
 
   def initialize(title, body, tag, user_name)
     @title = title
@@ -17,12 +17,5 @@ class Note
     @id = db.execute("SELECT last_insert_rowid();")
   end
 
-  def valid?
-    true
-  end
-
-  def self.all
-    []
-  end
 
 end
