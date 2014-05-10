@@ -8,16 +8,14 @@ describe Note do
       end
     end
     context "with multiple notes in the database" do
-      let!(:xxx){ Note.create("ciao") }
-      let!(:bar){ Note.create("Bar") }
-      let!(:baz){ Note.create("Baz") }
-      let!(:grille){ Note.create("Grille") }
+      let!(:xxx){ Note.create("ciao", "miao", "bau") }
+      let!(:bar){ Note.create("ciao", "miao", "bau") }
+      let!(:baz){ Note.create("ciao", "miao", "bau") }
       it "should return all of the notes" do
         note_attrs = Note.all.map{ |note| [note.title,note.id] }
         note_attrs.should == [["ciao", xxx.id],
-                                ["Bar", bar.id],
-                                ["Baz", baz.id],
-                                ["Grille", grille.id]]
+                                ["ciao", bar.id],
+                                ["ciao", baz.id]]
       end
     end
   end
@@ -30,9 +28,9 @@ describe Note do
     end
     context "with multiple notes in the database" do
       before do
-        Note.new("Foo").save
-        Note.new("Bar").save
-        Note.new("Baz").save
+        Note.new("ciao", "miao", "bau").save
+        Note.new("ciao", "miao", "bau").save
+        Note.new("ciao", "miao", "bau").save
       end
       it "should return the correct count" do
         Note.count.should == 3
@@ -47,14 +45,14 @@ describe Note do
       end
     end
     context "with a note by that title in the database" do
-      let(:foo){ Note.create("Foo") }
-      let(:baz){ Note.create("Baz") }
+      let(:foo){ Note.create("Foo", "miao", "bau") }
+      let(:baz){ Note.create("Baz", "miao", "bau") }
       before do
         foo
         baz
-        Note.new("Bar").save
-        Note.new("Baz").save
-        Note.new("Grille").save
+        Note.new("Bar", "xxx", "yyy").save
+        Note.new("Baz", "miao", "bau").save
+        Note.new("Grille", "ccc", "vvv").save
       end
       it "should return the note with that title" do
         Note.find_by_title("Foo").id.should == foo.id
@@ -76,10 +74,10 @@ describe Note do
     end
     context "with multiple notes in the database" do
       before do
-        Note.new("Ryu").save
-        Note.new("Ken").save
-        Note.new("Akuma").save
-        Note.new("Gouki").save
+        Note.new("Ryu", "xxx", "aaa").save
+        Note.new("Ken", "xxx", "aaa").save
+        Note.new("Akuma", "xxx", "aaa").save
+        Note.new("Gouki", "xxx", "aaa").save
       end
       it "should return the last one inserted" do
         Note.last.title.should == "Gouki"
@@ -88,7 +86,7 @@ describe Note do
   end
 
   context "#new" do
-    let(:note) { Note.new("Ryu") }
+    let(:note) { Note.new("Ryu", "xxx", "aaa") }
     it "should store the title" do
       note.title.should == "Ryu"
     end

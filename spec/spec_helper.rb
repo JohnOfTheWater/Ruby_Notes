@@ -10,7 +10,7 @@ Environment.environment = "test"
 
 def run_ruby_notes_with_input(*inputs)
   shell_output = ""
-  IO.popen('./ruby_notes', 'r+') do |pipe|
+  IO.popen('ENVIRONMENT=test ./ruby_notes', 'r+') do |pipe|
     inputs.each do |input|
       pipe.puts input
     end

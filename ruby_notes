@@ -4,21 +4,57 @@ $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
 
 require 'environment'
-Environment.environment = 'test'
+#Environment.environment = "test"
+Environment.environment = ENV["ENVIRONMENT"] || "production"
 $stderr = $stdout
-
+#require 'database'
+#Database.create_tables
 require 'user'
+require 'note'
+require 'print_notes'
 
-
+#---------------menus--------------#
 def menu
 <<EOS
 What do you want to do?
-1. Add a User
+1. Register as User
 2. Create a Note
 3. Modify a Note
 4. Search
+5. Count
 EOS
 end
+
+def search_menu
+<<EOS
+How do you want to search?
+1. By Title
+2. By Tag
+3. Show All
+EOS
+end
+
+def what_now_menu(user)
+<<EOS
+What now #{user}?
+1.==> Create a Note
+2.==> Modify a Note
+3.==> Search
+4.==> let's play!
+5.==> quit
+EOS
+end
+
+def modify_menu #<-- HERE!
+<<EOS
+What do you want to do?
+1.==> Write
+2.==> Delete Note
+3.==> ***
+EOS
+end
+
+#----------methods--------------#
 
 def add_user
   puts "Please enter a User-Name:"
@@ -28,7 +64,7 @@ def add_user
   user = User.new(user_name)
   if user.save
     puts "#{user_name} has been added as a User."
-    record_desired_outcomes_for(user) #<-- line 81
+    what_now(user_name)
   else
     puts user.errors
     add_user
@@ -36,25 +72,204 @@ def add_user
 end
 
 def create_note
-  puts "What is the title of the Note you want to create?"
-  note_title = gets
-  return unless note_title
-  note_title.chomp!
-  note = Note.new(note_title)
-  if note.save
-    puts "#{note_title} has been added"
+  puts "Hi, who are you?"
+  user = gets.chomp
+  return unless user
+  x = User.find_by_name(user)
+  if x
+    puts "Welcome back #{x.name}!"
+    puts "What is the title of the Note you want to create?"
+    note_title = gets.chomp
+    return unless note_title
+    puts "Please write a tag for your note:"
+    note_tag = gets.chomp
+    return unless note_tag
+    body = ""
+    note = Note.new(note_title, note_tag, user, body)
+    if note.save
+      puts "#{note_title} has been added!"
+      what_now(user)
+    else
+      puts note.errors
+    end
   else
-    puts note.errors
-    create_note
+    puts "I don't know you #{user}!"
+    puts "To create a new note you have first to register as a user"
+    get_menu_selection
   end
 end
 
+def create_note_user(user)
+  puts "Ok #{user},"
+  puts "What is the title of the Note you want to create?"
+  note_title = gets.chomp
+  return unless note_title
+  puts "Please write a tag for your note:"
+  note_tag = gets.chomp
+  return unless note_tag
+  body = ""
+  note = Note.new(note_title, note_tag, user, body)
+  if note.save
+    puts "#{note_title} has been added!"
+    what_now(user)
+  else
+    puts note.errors
+  end
+end
+
+def modify_note_user(user)
+  puts modify_menu
+  input = gets.chomp
+  return unless input
+  if input == "1"
+    write_note(user)
+  elsif input == "2"
+    delete_note(user)
+  else
+    puts "Invalid selection"
+    modify_note_user(user)
+  end
+end
 def modify_note
-  #stuff
+  puts "Hi, who are you?"
+  user = gets.chomp
+  return unless user
+  x = User.find_by_name(user)
+  if x
+    puts "Welcome back #{x.name}!"
+    puts modify_menu
+    input = gets.chomp
+    return unless input
+    if input == "1"
+      write_note(user)
+    elsif input == "2"
+      delete_note(user)
+    else
+      puts "Invalid selection"
+      modify_note_user(user)
+    end
+  else
+    puts "I don't know you #{user}!"
+    puts "To access the modify section you have first to register as a user"
+    get_menu_selection
+  end
+end
+
+def write_note(user)
+  puts "What is the title of the Note?"
+  title = gets.chomp
+  return unless title
+  note = Note.find_by_title_user(title, user)
+  if note
+    array = [note.title, note.tag, note.user_name, note.body]
+    print_body(array)
+    puts "..."
+    stuff = gets.chomp
+    return unless stuff
+    new_body = array[3]+" "+stuff
+    updated_note = Note.update(user, title, new_body)
+    puts "Your Note '#{title}', has been updated"
+    what_now(user)
+  else
+    puts "Wrong title, try again"
+    write_note(user)
+  end
+end
+
+def delete_note(user)
+  puts "What is the title of the note you want to delete?"
+  note_title = gets.chomp
+  return unless note_title
+  note = Note.find_by_title_user(note_title, user)
+  if note
+    puts "Warning; if you really want to delete this note write again the title:"
+    title = gets.chomp
+    return unless title
+    if title == note_title
+      Note.destroy_by_title(user, title)
+      puts "Note destroyed!"
+      what_now(user)
+    else
+      puts "Wrong title, try again"
+      what_now(user)
+    end
+  else
+    puts "I didn't find this note; try again"
+    what_now(user)
+  end
+end
+
+def count
+  x = Note.count
+  puts "There are #{x} notes in the database"
 end
 
 def search_note
-  #stuff
+  puts "Hi, who are you?"
+  user = gets.chomp
+  x = User.find_by_name(user)
+  if x
+    puts "Welcome back #{user}!"
+    puts search_menu
+    input = gets
+    return unless input
+    input.chomp!
+    if input == "1"
+      search_by_title(user)
+    elsif input == "2"
+      search_by_tag(user)
+    elsif input == "3"
+      show_all(user)
+    else
+      puts "sorry buddy,'#{input}' is not a valid selection"
+      search_note
+    end
+  else
+    puts "Sorry #{user}, but I don't know you..."
+    get_menu_selection
+  end
+end
+
+def search_by_title(user)
+  puts "What is the title of the Note you want to search?"
+  note_title = gets.chomp
+  return unless note_title
+  x = Note.find_by_title_user(note_title, user)
+  if x
+    puts "Ok #{x.user_name}, here is your note title:" +"\n"+ "'#{x.title}'"
+    array = [x.title, x.tag, x.user_name, x.body]
+    print_note(array)
+    what_now(user)
+  else
+    puts "Sorry but there is not such Note in the database." +"\n"+ "Try again"
+    search_by_title
+  end
+end
+
+def search_by_tag(user)
+  puts "What is the tag you are searching for?"
+  note_tag = gets.chomp
+  return unless note_tag
+  x = Note.find_by_tag(note_tag, user)
+  if x
+    puts "Ok #{x[0].user_name}, I found your notes:"
+    print_notes(x)
+    what_now(user)
+  else
+    puts "Sorry but there is not such Note in the database." +"\n"+ "Try again"
+    search_by_tag
+  end
+end
+
+def show_all(user)
+  x = Note.find_all(user)
+  if x
+    print_notes(x)
+    what_now(user)
+    #puts "found them! #{x[0].body}"
+  else
+    puts "You have no notes in the database"
+  end
 end
 
 def get_menu_selection
@@ -70,9 +285,47 @@ def get_menu_selection
     modify_note
   elsif input == "4"
     search_note
+  elsif input == "5"
+    count
   else
     puts "'#{input}' is not a valid selection."
     get_menu_selection
+  end
+end
+
+def what_now(user)
+  puts what_now_menu(user)
+  input = gets.chomp
+  return unless input
+  if input == "1"
+    create_note_user(user)
+  elsif input == "2"
+    modify_note_user(user)
+  elsif input == "3"
+    search_note_user(user)
+  elsif input == "4"
+    lets_play(user)
+  elsif input == "5"
+    quit(user)
+  else
+    puts "'#{input}' is not a valid selection."
+    what_now(user)
+  end
+end
+
+def quit(user)
+  puts "Are you sure you want to quit this awesome app?(y/n)"
+  input = gets.chomp
+  return unless input
+  if input == "y"
+    puts "Ok, you are the boss....bye!"
+    exit
+  elsif input == "n"
+    puts "Good choice #{user}:-)"
+    what_now(user)
+  else
+    puts "Yes or no buddy..."
+    quit(user)
   end
 end
 

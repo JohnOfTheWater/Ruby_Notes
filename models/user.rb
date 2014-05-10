@@ -53,7 +53,7 @@ class User
       @errors << "'#{self.name}' is not a valid name — must include letters."
     end
     if User.find_by_name(self.name)
-      @errors << "#{self.name} is already a collector."
+      @errors << "#{self.name} is already a user."
     end
     @errors.empty?
   end

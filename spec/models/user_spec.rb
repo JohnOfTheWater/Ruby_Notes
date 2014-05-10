@@ -191,7 +191,7 @@ describe User do
       end
       it "should save the error messages" do
         user.valid?
-        user.errors.first.should == "#{name} is already a collector."
+        user.errors.first.should == "#{name} is already a user."
       end
     end
   end
