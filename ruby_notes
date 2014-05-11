@@ -34,7 +34,7 @@ def menu
 |                                                                                                                                                  |
 |4.==> Search                                                                                                                                      |
 |                                                                                                                                                  |
-|5.==> Count all my notes                                                                                                                          |
+|5.==> Count all my Notes                                                                                                                          |
 |                                                                                                                                   Ruby_Notes_1.1 |
 |=================================================================================================================================================/
 EOS
@@ -272,7 +272,7 @@ def create_note
     body = "empty"
     note = Note.new(note_title, note_tag, user, body)
     if note.save
-      puts "#{note_title} has been added!"
+      puts "#{note_title} has been created and saved in the database!"
       what_now(user)
     else
       puts note.errors
@@ -295,7 +295,7 @@ def create_note_user(user)
   body = "empty"
   note = Note.new(note_title, note_tag, user, body)
   if note.save
-    puts "#{note_title} has been added!"
+    puts "#{note_title} has been created and saved in the database!"
     what_now(user)
   else
     puts note.errors
