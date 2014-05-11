@@ -4,11 +4,9 @@ $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
 
 require 'environment'
-#Environment.environment = "test"
 Environment.environment = ENV["ENVIRONMENT"] || "production"
 $stderr = $stdout
-#require 'database'
-#Database.create_tables
+
 require 'user'
 require 'note'
 require 'print_notes'
@@ -16,41 +14,131 @@ require 'print_notes'
 #---------------menus--------------#
 def menu
 <<EOS
-What do you want to do?
-1. Register as User
-2. Create a Note
-3. Modify a Note
-4. Search
-5. Count
+====================================================================================================================================================
+|               .__                                  __                       ___.          _______          __                                    |
+|__  _  __ ____ |  |   ____  ____   _____   ____   _/  |_  ____   _______ __ _\\_ |__ ___.__.\\      \\   _____/  |_  ____   ______                   |
+|\\ \\/ \\/ // __ \\|  | _/ ___\\/  _ \\ /     \\_/ __ \\  \\   __\\/  _ \\  \\_  __ \\  |  \\ __ <   |  |/   |   \\ /  _ \\   __\\/ __ \\ /  ___/                   |
+| \\     /\\  ___/|  |_\\  \\__(  <_> )  Y Y  \\  ___/   |  | (  <_> )  |  | \\/  |  / \\_\\ \\___  /    |    (  <_> )  | \\  ___/ \\___ \\                    |
+|  \\/\\_/  \\___  >____/\\___  >____/|__|_|  /\\___  >  |__|  \\____/   |__|  |____/|___  / ____\\____|__  /\\____/|__|  \\___  >____  >                   |
+|             \\/          \\/            \\/     \\/                                  \\/\\/            \\/                 \\/     \\/                    |
+|                                                                                                                                                  |
+|                                                                                                                                                  |
+|Welcome to Ruby_Notes!                                                                                                                            |
+|What do you want to do?                                                                                                                           |
+|                                                                                                                                                  |
+|1.==> Register as User                                                                                                                            |
+|                                                                                                                                                  |
+|2.==> Create a Note                                                                                                                               |
+|                                                                                                                                                  |
+|3.==> Modify a Note                                                                                                                               |
+|                                                                                                                                                  |
+|4.==> Search                                                                                                                                      |
+|                                                                                                                                                  |
+|5.==> Count                                                                                                                                       |
+|                                                                                                                                   Ruby_Notes_1.1 |
+|=================================================================================================================================================/
 EOS
 end
 
 def search_menu
 <<EOS
-How do you want to search?
-1. By Title
-2. By Tag
-3. Show All
+How do you want to search?               _,aggdd888bbgg,,_
+                                    ,ad88888YYYYYYYYYYY8888ba,
+                                 ,d888P""'              ``""Y88b,
+                               ,d888"'                       "Y888,
+                              d88P'                            `Y88b,
+                            ,d88'                                `Y88,
+                           ,888'                                  `Y88,
+                          ,d88'    1.==> By Title                  `Y8b,
+                          d88'     2.==> By Tag                     `88I
+                         ,88P      3.==> Show All                    I88
+                         I88I                                        I88
+                         I88I                                        I8I
+                         `888,                                       d8I
+                          `888,                                     d88'
+                           `888,                                   d8PI
+                           ,dP"8b,                               ,8P'd'
+                         ,dP'   "Yb,                          _,d8" P'
+                       ,dP' ,db,  "Yb,_                    ,ad8P" ,P'
+                     ,dP' ,d8888b,  `"Yba,,__        __,ad88P"  ,d"
+                   ,dP' ,d88888888b,    "88Y8888888888PP""   _,d"
+                 ,dP' ,d888888888888P  ,d"8              _,gd"'
+               ,dP' ,d888888888888P' ,d" ,8bbaagggggaaddP""'
+             ,dP' ,d888888888888P' ,d" ,d"'
+           ,dP' ,d888888888888P' ,d" ,d"
+         ,dP' ,d888888888888P' ,d" ,d"
+       ,dP' ,d888888888888P' ,d" ,d"
+     ,dP' ,d888888888888P' ,d" ,d"
+   ,dP' ,d888888888888P' ,d" ,d"
+ ,dP' ,d888888888888P' ,d" ,d"
+dP'  d888888888888P' ,d" ,d"
+8"Ya, `888888888P' ,d" ,d"
+8  "Ya, `88888P' ,d" ,d"
+8a,  "Ya, `8P' ,d" ,d"
+ "Ya,  "Ya,  ,d" ,d"
+   "Ya,  "Y8P" ,d"
+     "Ya,  8 ,d"
+       "Ya,8d"
+         "YP
 EOS
 end
 
 def what_now_menu(user)
 <<EOS
-What now #{user}?
-1.==> Create a Note
-2.==> Modify a Note
-3.==> Search
-4.==> let's play!
-5.==> quit
+====================================================================================================================================================
+| __      __.__            __     _______                _________                                                                                 |
+|/  \\    /  \\  |__ _____ _/  |_   \\      \\   ______  _  _\\_____   \\                                                                                |
+|\\   \\/\\/   /  |  \\\\__  \\\\   __\\  /   |   \\ /  _ \\ \\/ \\/ /  /   __/                                                                                |
+| \\        /|   Y  \\/ __ \\|  |   /    |    (  <_> )     /  |   |                                                                                   |
+|  \\__/\\  / |___|  (____  /__|   \\____|__  /\\____/ \\/\\_/   |___|                                                                                   |
+|       \\/       \\/     \\/               \\/                <___>                                                                                   |
+|                                                                                                                                                  |
+|1.==> Create a Note                                                                                                                               |
+|                                                                                                                                                  |
+|2.==> Modify a Note                                                                                                                               |
+|                                                                                                                                                  |
+|3.==> Search                                                                                                                                      |
+|                                                                                                                                                  |
+|4.==> Let's play!                                                                                                                                 |
+|                                                                                                                                 USER: #{user}      |
+|5.==> Quit                                                                                                                                        |
+|                                                                                                                                   Ruby_Notes_1.1 |
+|=================================================================================================================================================/
 EOS
 end
 
-def modify_menu #<-- HERE!
+def modify_menu(user)
 <<EOS
-What do you want to do?
-1.==> Write
-2.==> Delete Note
-3.==> ***
+=============================================================================
+|What do you want to do?                                                    |
+|      (`/\\                                                                 |
+|      `=\\/\\                                                                |
+|       `=\\/\\       1.==> Write                                             |
+|        `=\\/       2.==> Delete Note                                       |
+|          _\\___    3.==> Back                                              |
+|           ) (                                             USER: #{user}     |
+|         ( INK )                                                           |
+|          \\___/                                              Ruby_Notes_1.1|
+=============================================================================
+EOS
+end
+
+def quit_menu
+<<EOS
+=============================================================================
+|                                  ''~``                                    |
+|                                 ( o o )                                   |
+|       +--------------------.oooO--(_)--Oooo.------------------+           |
+|       |                                                       |           |
+|       |  Are you sure you want to quit this awesome app?(y/n) |           |
+|       |                      .oooO                            |           |
+|       |                      (   )   Oooo.                    |           |
+|       +-----------------------\\ (----(   )--------------------+           |
+|                                \\_)    ) /                                 |
+|                                      (_/                                  |
+|                                                                           |
+|                                                             Ruby_Notes_1.1|
+=============================================================================
 EOS
 end
 
@@ -84,7 +172,7 @@ def create_note
     puts "Please write a tag for your note:"
     note_tag = gets.chomp
     return unless note_tag
-    body = ""
+    body = "empty"
     note = Note.new(note_title, note_tag, user, body)
     if note.save
       puts "#{note_title} has been added!"
@@ -107,7 +195,7 @@ def create_note_user(user)
   puts "Please write a tag for your note:"
   note_tag = gets.chomp
   return unless note_tag
-  body = ""
+  body = "empty"
   note = Note.new(note_title, note_tag, user, body)
   if note.save
     puts "#{note_title} has been added!"
@@ -118,18 +206,21 @@ def create_note_user(user)
 end
 
 def modify_note_user(user)
-  puts modify_menu
+  puts modify_menu(user)
   input = gets.chomp
   return unless input
   if input == "1"
     write_note(user)
   elsif input == "2"
     delete_note(user)
+  elsif input == "3"
+    what_now(user)
   else
     puts "Invalid selection"
     modify_note_user(user)
   end
 end
+
 def modify_note
   puts "Hi, who are you?"
   user = gets.chomp
@@ -137,13 +228,15 @@ def modify_note
   x = User.find_by_name(user)
   if x
     puts "Welcome back #{x.name}!"
-    puts modify_menu
+    puts modify_menu(user)
     input = gets.chomp
     return unless input
     if input == "1"
       write_note(user)
     elsif input == "2"
       delete_note(user)
+    elsif input == "3"
+      what_now(user)
     else
       puts "Invalid selection"
       modify_note_user(user)
@@ -166,7 +259,11 @@ def write_note(user)
     puts "..."
     stuff = gets.chomp
     return unless stuff
-    new_body = array[3]+" "+stuff
+    if array[3] == "empty"
+      new_body = stuff
+    else
+      new_body = array[3]+" "+stuff
+    end
     updated_note = Note.update(user, title, new_body)
     puts "Your Note '#{title}', has been updated"
     what_now(user)
@@ -222,11 +319,28 @@ def search_note
       show_all(user)
     else
       puts "sorry buddy,'#{input}' is not a valid selection"
-      search_note
+      search_note_user(user)
     end
   else
     puts "Sorry #{user}, but I don't know you..."
     get_menu_selection
+  end
+end
+
+def search_note_user(user)
+  puts search_menu
+  input = gets
+  return unless input
+  input.chomp!
+  if input == "1"
+    search_by_title(user)
+  elsif input == "2"
+    search_by_tag(user)
+  elsif input == "3"
+    show_all(user)
+  else
+    puts "sorry buddy,'#{input}' is not a valid selection"
+    search_note_user(user)
   end
 end
 
@@ -242,7 +356,7 @@ def search_by_title(user)
     what_now(user)
   else
     puts "Sorry but there is not such Note in the database." +"\n"+ "Try again"
-    search_by_title
+    search_by_title(user)
   end
 end
 
@@ -257,7 +371,7 @@ def search_by_tag(user)
     what_now(user)
   else
     puts "Sorry but there is not such Note in the database." +"\n"+ "Try again"
-    search_by_tag
+    search_by_tag(user)
   end
 end
 
@@ -314,7 +428,7 @@ def what_now(user)
 end
 
 def quit(user)
-  puts "Are you sure you want to quit this awesome app?(y/n)"
+  puts quit_menu
   input = gets.chomp
   return unless input
   if input == "y"
