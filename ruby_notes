@@ -232,7 +232,7 @@ def troll_face
      .xXO'                                                 .;oOK0x:.                                                        |
       .cKKo.                                    .,:oxkkkxk0K0xc'.                      JUST KIDDING!!!                      |
         .oKKkc,.                         .';cok0XNNNX0Oxoc,.                                                                |
-          .;d0XX0kdlc:;,,,',,,;;:clodkO0KK0Okdl:,'..                        Give me a smile and press enter to go bak       |
+          .;d0XX0kdlc:;,,,',,,;;:clodkO0KK0Okdl:,'..                        Give me a smile and press enter to go back      |
               .,coxO0KXXXXXXXKK0OOxdoc:,..                                                                                  |
 |                       ...                                                                                Ruby_Notes_1.1   |
 =============================================================================================================================
@@ -401,7 +401,7 @@ def count
   if x < 6
     puts "You are not much of a writer, aren't you?"
   else
-    puts "Wow, are you writing a poet or something?"
+    puts "Wow, are you writing a poem or something?"
   end
   what_now(user)
 end
