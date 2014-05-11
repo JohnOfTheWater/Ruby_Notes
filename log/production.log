@@ -447,3 +447,17 @@ I, [2014-05-10T22:36:28.833285 #5066]  INFO -- : Executing: Select * from notes 
 I, [2014-05-10T22:36:30.841049 #5066]  INFO -- : Executing: update notes set body='Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.' where user_name='giova' and title='lorem';
 I, [2014-05-10T22:36:38.480837 #5066]  INFO -- : Executing: Select * from notes where title='lorem' and user_name='giova';
 I, [2014-05-10T22:37:24.006562 #5066]  INFO -- : Executing: Select * from notes where user_name='giova';
+I, [2014-05-10T23:14:05.386594 #5083]  INFO -- : Executing: Select * from users where name = ?;
+I, [2014-05-10T23:14:07.521626 #5083]  INFO -- : Executing: Select * from notes where user_name='giova';
+I, [2014-05-10T23:17:25.773539 #5088]  INFO -- : Executing: Select * from users where name = ?;
+I, [2014-05-10T23:19:22.088652 #5090]  INFO -- : Executing: Select count(*) from notes where user_name='giova';
+I, [2014-05-10T23:20:01.085144 #5090]  INFO -- : Executing: Insert into notes (title, tag, user_name, body) values (?, ?, ?, ?);
+I, [2014-05-10T23:20:01.093164 #5090]  INFO -- : Executing: SELECT last_insert_rowid();
+I, [2014-05-10T23:20:08.837780 #5090]  INFO -- : Executing: Select * from notes where user_name='giova';
+I, [2014-05-10T23:20:23.606954 #5090]  INFO -- : Executing: Select * from notes where title='mortacci' and user_name='giova';
+I, [2014-05-10T23:21:27.521927 #5090]  INFO -- : Executing: update notes set body='L'anima deli mortacci tua e di tutta la tua famiglia L'anima deli mortacci tua e di tutta la tua famiglia L'anima deli mortacci tua e di tutta la tua famiglia L'anima deli mortacci tua e di tutta la tua famiglia L'anima deli mortacci tua e di tutta la tua famiglia L'anima deli mortacci tua e di tutta la tua famiglia L'anima deli mortacci tua e di tutta la tua famiglia!' where user_name='giova' and title='mortacci';
+I, [2014-05-10T23:21:58.128596 #5092]  INFO -- : Executing: Select * from users where name = ?;
+I, [2014-05-10T23:22:01.190998 #5092]  INFO -- : Executing: Select * from notes where user_name='giova';
+I, [2014-05-10T23:22:21.314020 #5092]  INFO -- : Executing: Select * from notes where title='mortacci' and user_name='giova';
+I, [2014-05-10T23:23:01.315808 #5092]  INFO -- : Executing: update notes set body='Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia Anima deli mortacci tua e della tua famiglia!' where user_name='giova' and title='mortacci';
+I, [2014-05-10T23:23:06.132332 #5092]  INFO -- : Executing: Select * from notes where user_name='giova';
