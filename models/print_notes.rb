@@ -13,7 +13,7 @@ def print_notes(notes)
 end
 
 def print_note(note)
-  print "|Title: #{note[0].capitalize!}  Tag: #{note[1]}  |User: #{note[2].capitalize!}" + "\n"
+  print "|Title: #{note[0].capitalize!}  |Tag: #{note[1]}  |User: #{note[2].capitalize!}" + "\n"
   print "==============================================================" + "\n"
   line_fixer(note[3])
   print "|____________________________________________________________/" + "\n"

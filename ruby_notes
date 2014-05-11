@@ -34,7 +34,7 @@ def menu
 |                                                                                                                                                  |
 |4.==> Search                                                                                                                                      |
 |                                                                                                                                                  |
-|5.==> Count                                                                                                                                       |
+|5.==> Count all my notes                                                                                                                          |
 |                                                                                                                                   Ruby_Notes_1.1 |
 |=================================================================================================================================================/
 EOS
@@ -107,6 +107,22 @@ def what_now_menu(user)
 EOS
 end
 
+def create_menu(user)
+<<EOS
+=============================================================================
+|What is the title of the note you want to create?                          |
+|      (`/\\                                                                 |
+|      `=\\/\\                                                                |
+|       `=\\/\\                                                               |
+|        `=\\/                                                               |
+|          _\\___                                                            |
+|           ) (                                             USER: #{user}     |
+|         ( INK )                                                           |
+|          \\___/                                              Ruby_Notes_1.1|
+=============================================================================
+EOS
+end
+
 def modify_menu(user)
 <<EOS
 =============================================================================
@@ -142,6 +158,33 @@ def quit_menu
 EOS
 end
 
+def who_are_you
+<<EOS
+=============================================================================
+|            ________                                                       |
+|        _jgN########Ngg_                                                   |
+|      _N##N@@""  ""9NN##Np_                                                |
+|     d###P            N####p                                               |
+|     "^^"              T####                                               |
+|                       d###P                                               |
+|                    _g####F                                                |
+|                 _gN###P                                                   |
+|               gN###F"              Not so fast!!!                         |
+|              d###F                                                        |
+|             0###F                  Who are you?                           |
+|             0###F                                                         |
+|             0###F                                                         |
+|             "NN@'                                                         |
+|                                                                           |
+|              ___                                                          |
+|             q###r                                                         |
+|              ""                                                           |
+|                                                                           |
+|                                                             Ruby_Notes_1.1|
+=============================================================================
+EOS
+end
+
 #----------methods--------------#
 
 def add_user
@@ -160,13 +203,13 @@ def add_user
 end
 
 def create_note
-  puts "Hi, who are you?"
+  puts who_are_you
   user = gets.chomp
   return unless user
   x = User.find_by_name(user)
   if x
     puts "Welcome back #{x.name}!"
-    puts "What is the title of the Note you want to create?"
+    puts create_menu(user)
     note_title = gets.chomp
     return unless note_title
     puts "Please write a tag for your note:"
@@ -189,7 +232,7 @@ end
 
 def create_note_user(user)
   puts "Ok #{user},"
-  puts "What is the title of the Note you want to create?"
+  puts create_menu(user)
   note_title = gets.chomp
   return unless note_title
   puts "Please write a tag for your note:"
@@ -222,7 +265,7 @@ def modify_note_user(user)
 end
 
 def modify_note
-  puts "Hi, who are you?"
+  puts who_are_you
   user = gets.chomp
   return unless user
   x = User.find_by_name(user)
@@ -297,12 +340,20 @@ def delete_note(user)
 end
 
 def count
-  x = Note.count
+  puts who_are_you
+  user = gets.chomp
+  x = Note.count_user(user)
   puts "There are #{x} notes in the database"
+  if x < 6
+    puts "You are not much of a writer, aren't you?"
+  else
+    puts "Wow, are you writing a poet or something?"
+  end
+  what_now(user)
 end
 
 def search_note
-  puts "Hi, who are you?"
+  puts who_are_you
   user = gets.chomp
   x = User.find_by_name(user)
   if x
@@ -350,7 +401,7 @@ def search_by_title(user)
   return unless note_title
   x = Note.find_by_title_user(note_title, user)
   if x
-    puts "Ok #{x.user_name}, here is your note title:" +"\n"+ "'#{x.title}'"
+    puts "Ok #{x.user_name}, here is your note:" +"\n"+ "'#{x.title.capitalize!}'"
     array = [x.title, x.tag, x.user_name, x.body]
     print_note(array)
     what_now(user)
@@ -366,7 +417,7 @@ def search_by_tag(user)
   return unless note_tag
   x = Note.find_by_tag(note_tag, user)
   if x
-    puts "Ok #{x[0].user_name}, I found your notes:"
+    puts "Ok #{x[0].user_name}, I found your notes with the tag:#{x[0].tag}"
     print_notes(x)
     what_now(user)
   else
@@ -378,9 +429,9 @@ end
 def show_all(user)
   x = Note.find_all(user)
   if x
+    print "I found all your notes"
     print_notes(x)
     what_now(user)
-    #puts "found them! #{x[0].body}"
   else
     puts "You have no notes in the database"
   end
@@ -402,7 +453,7 @@ def get_menu_selection
   elsif input == "5"
     count
   else
-    puts "'#{input}' is not a valid selection."
+    puts "Sorry buddy, '#{input}' is not a valid selection."
     get_menu_selection
   end
 end

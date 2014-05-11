@@ -34,6 +34,12 @@ class Note
     result[0][0]
   end
 
+  def self.count_user(user)
+    statement = "Select count(*) from notes where user_name='#{user}';"
+    result = Environment.database_connection.execute(statement)
+    result[0][0]
+  end
+
   def self.find_by_title(title)
     statement = "Select * from notes where title = ?;"
     execute_and_instantiate(statement, title)[0]
