@@ -171,7 +171,7 @@ def who_are_you
 |                 _gN###P                                                   |
 |               gN###F"              Not so fast!!!                         |
 |              d###F                                                        |
-|             0###F                  Who are you?                           |
+|             0###F                   Who are you?                          |
 |             0###F                                                         |
 |             0###F                                                         |
 |             "NN@'                                                         |
@@ -473,6 +473,12 @@ def search_by_tag(user)
   if x
     puts "Ok #{x[0].user_name}, I found your notes with the tag:#{x[0].tag}"
     print_notes(x)
+    puts "press enter to continue"
+    input = gets.chomp
+    return unless input
+    if input
+      what_now(user)
+    end
     what_now(user)
   else
     puts "Sorry but there is not such Note in the database." +"\n"+ "Try again"
@@ -483,8 +489,14 @@ end
 def show_all(user)
   x = Note.find_all(user)
   if x
-    print "I found all your notes"
+    puts "I found all your notes"
     print_notes(x)
+    puts "press enter to continue"
+    input = gets.chomp
+    return unless input
+    if input
+      what_now(user)
+    end
     what_now(user)
   else
     puts "You have no notes in the database"
