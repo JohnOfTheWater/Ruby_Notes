@@ -26,6 +26,16 @@ class User
     result[0][0]
   end
 
+  def self.destroy_user(user)
+    statement = "Delete from users where name='#{user}';"
+    execute_and_instantiate(statement)
+  end
+
+  def self.super_destroy_all
+    statement = "Delete from users;"
+    execute_and_instantiate(statement)
+  end
+
   def self.find_by_name(name)
     statement = "Select * from users where name = ?;"
     execute_and_instantiate(statement, name)[0]

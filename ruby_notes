@@ -10,6 +10,7 @@ $stderr = $stdout
 require 'user'
 require 'note'
 require 'print_notes'
+require 'super_user'
 
 #---------------menus--------------#
 def menu
@@ -26,7 +27,7 @@ def menu
 |Welcome to Ruby_Notes!                                                                                                                            |
 |What do you want to do?                                                                                                                           |
 |                                                                                                                                                  |
-|1.==> Register as User                                                                                                                            |
+|1.==> Register or Login                                                                                                                           |
 |                                                                                                                                                  |
 |2.==> Create a Note                                                                                                                               |
 |                                                                                                                                                  |
@@ -101,8 +102,9 @@ def what_now_menu(user)
 |                                                                                                                                                  |
 |4.==> Let's play!                                                                                                                                 |
 |                                                                                                                                 USER: #{user}      |
-|5.==> Quit                                                                                                                                        |
+|5.==> Super_User                                                                                                                                  |
 |                                                                                                                                   Ruby_Notes_1.1 |
+|6.==> Quit                                                                                                                                        |
 |=================================================================================================================================================/
 EOS
 end
@@ -251,7 +253,8 @@ def add_user
     puts "#{user_name} has been added as a User."
     what_now(user_name)
   else
-    puts user.errors
+    puts "Welcome back #{user_name}!"
+    what_now(user_name)
     add_user
   end
 end
@@ -488,7 +491,7 @@ end
 
 def show_all(user)
   x = Note.find_all(user)
-  if x
+  if x != []
     puts "I found all your notes"
     print_notes(x)
     puts "press enter to continue"
@@ -500,6 +503,10 @@ def show_all(user)
     what_now(user)
   else
     puts "You have no notes in the database"
+    puts "press enter to continue"
+    input = gets.chomp
+    return unless input
+    what_now(user)
   end
 end
 
@@ -537,6 +544,8 @@ def what_now(user)
   elsif input == "4"
     troll(user)
   elsif input == "5"
+    password(user)
+  elsif input == "6"
     quit(user)
   else
     puts "'#{input}' is not a valid selection."

@@ -27,6 +27,11 @@ class Note
     execute_and_instantiate(statement)
   end
 
+  def self.super_find_all
+    statement = "Select * from notes;"
+    execute_and_instantiate(statement)
+  end
+
 
   def self.count
     statement = 'Select count(*) from notes;'
@@ -62,6 +67,16 @@ class Note
 
   def self.destroy_by_title(user, title)
     statement = "Delete from notes where user_name='#{user}' and title='#{title}';"
+    execute_and_instantiate(statement)
+  end
+
+  def self.super_destroy_by_title(title)
+    statement = "Delete from notes where title='#{title}';"
+    execute_and_instantiate(statement)
+  end
+
+  def self.super_destroy_all
+    statement = "Delete from notes;"
     execute_and_instantiate(statement)
   end
 

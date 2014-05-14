@@ -15,7 +15,7 @@ describe "Start Menu Integration" do
 |Welcome to Ruby_Notes!                                                                                                                            |
 |What do you want to do?                                                                                                                           |
 |                                                                                                                                                  |
-|1.==> Register as User                                                                                                                            |
+|1.==> Register or Login                                                                                                                           |
 |                                                                                                                                                  |
 |2.==> Create a Note                                                                                                                               |
 |                                                                                                                                                  |
